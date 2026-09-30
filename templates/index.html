@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ComicCraft - AI Comic Story Creator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f3ff;
+            color: #222;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            color: #6c3df4;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #6c3df4;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #6c3df4;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .generate-btn:hover {
+            background: #5425d1;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        @media (max-width: 650px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>🎨 ComicCraft</h1>
+            <p>AI Comic Story Creator</p>
+        </div>
+
+        <div class="card">
+
+            {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form action="/generate" method="post">
+
+                <div class="form-group">
+                    <label for="story_prompt">Story Prompt</label>
+
+                    <textarea
+                        id="story_prompt"
+                        name="story_prompt"
+                        placeholder="Enter your comic story idea..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group">
+                        <label for="character_name">Character Name</label>
+
+                        <input
+                            type="text"
+                            id="character_name"
+                            name="character_name"
+                            placeholder="Example: Arjun"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="setting">Setting</label>
+
+                        <input
+                            type="text"
+                            id="setting"
+                            name="setting"
+                            placeholder="Example: Chennai"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group">
+                        <label for="tone">Tone</label>
+
+                        <select id="tone" name="tone" required>
+                            <option value="">Select Tone</option>
+                            <option value="Funny">Funny</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Romantic">Romantic</option>
+                            <option value="Emotional">Emotional</option>
+                            <option value="Action">Action</option>
+                            <option value="Mystery">Mystery</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="art_style">Art Style</label>
+
+                        <select id="art_style" name="art_style" required>
+                            <option value="">Select Art Style</option>
+                            <option value="Comic Book">Comic Book</option>
+                            <option value="Anime">Anime</option>
+                            <option value="Cartoon">Cartoon</option>
+                            <option value="Manga">Manga</option>
+                            <option value="Realistic">Realistic</option>
+                            <option value="Digital Art">Digital Art</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button type="submit" id="submitBtn" class="generate-btn">
+                    ✨ Generate Comic
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="footer">
+            <p>Powered by Gemini & Hugging Face</p>
+        </div>
+
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '⏳ Crafting Comic & Generating Panels... Please wait';
+            btn.style.opacity = '0.7';
+            btn.style.cursor = 'not-allowed';
+        });
+    </script>
+</body>
+</html>

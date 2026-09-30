@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ComicCraft Preview</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0f111a;
+            color: #e2e8f0;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .header-card {
+            background: linear-gradient(135deg, #1e1e38 0%, #2a2254 100%);
+            border: 2px solid #6c3df4;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(108, 61, 244, 0.2);
+        }
+
+        .header-card h1 {
+            font-size: 38px;
+            color: #ffd700;
+            text-shadow: 2px 2px 0px #000;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .metadata-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 15px 0 25px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .tag strong {
+            color: #38bdf8;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-download {
+            background: #ffd700;
+            color: #111;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-download:hover {
+            background: #ffea70;
+            transform: translateY(-2px);
+        }
+
+        .btn-new {
+            background: #6c3df4;
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 61, 244, 0.4);
+        }
+
+        .btn-new:hover {
+            background: #8054ff;
+            transform: translateY(-2px);
+        }
+
+        .panels-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .panel-card {
+            background: #181926;
+            border: 3px solid #2d3047;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            transition: border-color 0.2s;
+        }
+
+        .panel-card:hover {
+            border-color: #6c3df4;
+        }
+
+        .panel-visual {
+            background: #0d0e15;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-right: 2px solid #2d3047;
+        }
+
+        .panel-visual img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        .panel-details {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .panel-badge {
+            background: #e63c50;
+            color: white;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .panel-title {
+            font-size: 22px;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .panel-desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .speech-bubble {
+            background: #fffbe6;
+            color: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 14px;
+            font-style: italic;
+            font-weight: 600;
+            position: relative;
+            margin-bottom: 15px;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            left: 25px;
+            bottom: -10px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #fffbe6 transparent;
+            display: block;
+            width: 0;
+        }
+
+        .prompt-preview {
+            background: #11131c;
+            border: 1px solid #232738;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #718096;
+            line-height: 1.4;
+        }
+
+        .prompt-preview strong {
+            color: #a0aec0;
+        }
+
+        @media (max-width: 820px) {
+            .panel-card {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-visual {
+                border-right: none;
+                border-bottom: 2px solid #2d3047;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Top Header Card -->
+        <div class="header-card">
+            <h1>📖 {{ title }}</h1>
+            <p style="color: #cbd5e1;">A 5-Panel Comic Strip Created with ComicCraft</p>
+
+            <div class="metadata-tags">
+                <div class="tag">Hero: <strong>{{ character_name }}</strong></div>
+                <div class="tag">Setting: <strong>{{ setting }}</strong></div>
+                <div class="tag">Tone: <strong>{{ tone }}</strong></div>
+                <div class="tag">Art Style: <strong>{{ art_style }}</strong></div>
+            </div>
+
+            <div class="actions">
+                <a href="{{ pdf_url }}" class="btn btn-download" download>
+                    📥 Download Comic PDF
+                </a>
+                <a href="/" class="btn btn-new">
+                    ✏️ Create Another Story
+                </a>
+            </div>
+        </div>
+
+        <!-- Panels Grid -->
+        <div class="panels-grid">
+            {% for panel in panels %}
+            <div class="panel-card">
+                
+                <div class="panel-visual">
+                    {% if panel.image_url %}
+                    <img src="{{ panel.image_url }}" alt="{{ panel.title }}">
+                    {% else %}
+                    <div style="color: #666; padding: 40px;">No image available</div>
+                    {% endif %}
+                </div>
+
+                <div class="panel-details">
+                    <div>
+                        <div class="panel-header">
+                            <span class="panel-badge">ACT {{ panel.panel_number }} / 5</span>
+                        </div>
+                        
+                        <div class="panel-title">{{ panel.title }}</div>
+                        <div class="panel-desc">{{ panel.description }}</div>
+
+                        {% if panel.caption %}
+                        <div class="speech-bubble">
+                            "{{ panel.caption }}"
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="prompt-preview">
+                        <strong>Visual Prompt:</strong> {{ panel.image_prompt }}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; color: #718096; font-size: 14px;">
+            <p>ComicCraft • Powered by Google Gemini & Pillow/FPDF2</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
